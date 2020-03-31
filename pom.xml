@@ -21,6 +21,7 @@
         <module>foodie-mapper</module>
         <module>foodie-service</module>
         <module>foodie-api</module>
+        <module>foodie-image</module>
     </modules>
 
     <packaging>pom</packaging>
