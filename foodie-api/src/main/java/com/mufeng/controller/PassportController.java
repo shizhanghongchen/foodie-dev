@@ -3,6 +3,8 @@ package com.mufeng.controller;
 import com.mufeng.pojo.bo.UserBo;
 import com.mufeng.service.UserService;
 import com.mufeng.utils.JSONResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @description: Test Demo
+ * @description: 用户模块
  * @Author: my.yang
  * @Date: 2020/3/26 10:47 PM
  */
+@Api(value = "注册登录", tags = "用户模块相关接口")
 @RestController
 @RequestMapping("passport")
 public class PassportController {
@@ -30,6 +33,7 @@ public class PassportController {
      * @param username
      * @return
      */
+    @ApiOperation(value = "用户名是否存在", notes = "用户名是否存在", httpMethod = "GET")
     @GetMapping("/usernameIsExist")
     public JSONResult usernameIsExist(@RequestParam String username) {
         // 用户名不能为空
@@ -51,6 +55,7 @@ public class PassportController {
      * @param userBo
      * @return
      */
+    @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST")
     @PostMapping("/regist")
     public JSONResult regist(@RequestBody UserBo userBo) {
         String username = userBo.getUsername();

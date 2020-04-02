@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @description: Test Demo
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 2020/3/26 10:47 PM
  */
 @RestController
+// 忽略当前Controller下所有Api
+@ApiIgnore
 public class StuFooController {
 
     @Autowired
