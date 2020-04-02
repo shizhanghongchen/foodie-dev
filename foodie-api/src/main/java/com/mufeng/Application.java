@@ -2,6 +2,8 @@ package com.mufeng;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -16,6 +18,8 @@ import tk.mybatis.spring.annotation.MapperScan;
 @SpringBootApplication
 // 扫描MyBatis通用mapper所在的包
 @MapperScan(basePackages = "com.mufeng.mapper")
+// 扫描所有包已经相关包
+@ComponentScan(basePackages = {"com.mufeng","org.n3r.idworker"})
 public class Application {
 
     public static void main(String[] args) {
