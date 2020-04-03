@@ -17,6 +17,11 @@ public class CorsConfig {
     public CorsConfig() {
     }
 
+    /**
+     * 跨域请求设置
+     *
+     * @return
+     */
     @Bean
     public CorsFilter corsFilter() {
         // 1. 添加cors配置信息
