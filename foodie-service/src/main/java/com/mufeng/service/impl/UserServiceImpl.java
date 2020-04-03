@@ -81,5 +81,21 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-
+    /**
+     * 检索用户名和密码是否匹配，用于登录
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public Users queryUserForLogin(String username, String password) {
+        Example userExample = new Example(Users.class);
+        Example.Criteria userCriteria = userExample.createCriteria();
+        userCriteria.andEqualTo("username", username);
+        userCriteria.andEqualTo("password", password);
+        Users result = usersMapper.selectOneByExample(userExample);
+        return result;
+    }
 }

@@ -1,8 +1,12 @@
 package com.mufeng.controller;
 
+import com.mufeng.pojo.Users;
 import com.mufeng.pojo.bo.UserBo;
 import com.mufeng.service.UserService;
+import com.mufeng.utils.CookieUtils;
 import com.mufeng.utils.JSONResult;
+import com.mufeng.utils.JsonUtils;
+import com.mufeng.utils.MD5Utils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @description: 用户模块
@@ -57,7 +64,8 @@ public class PassportController {
      */
     @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST")
     @PostMapping("/regist")
-    public JSONResult regist(@RequestBody UserBo userBo) {
+    public JSONResult regist(@RequestBody UserBo userBo, HttpServletRequest request,
+                             HttpServletResponse response) {
         String username = userBo.getUsername();
         String password = userBo.getPassword();
         String confirmPassword = userBo.getConfirmPassword();
@@ -79,9 +87,53 @@ public class PassportController {
             return JSONResult.errorMsg("两次密码输入不一致");
         }
         // 5. 注册
-        userService.createUser(userBo);
+        Users userResult = userService.createUser(userBo);
+        userResult = setNullProperty(userResult);
+        CookieUtils.setCookie(request, response, "user", JsonUtils.objectToJson(userResult), true);
         return JSONResult.ok();
     }
 
+    /**
+     * 用户登录
+     *
+     * @param userBo
+     * @return
+     */
+    @ApiOperation(value = "用户登录", notes = "用户登录", httpMethod = "POST")
+    @PostMapping("/login")
+    public JSONResult login(@RequestBody UserBo userBo, HttpServletRequest request,
+                            HttpServletResponse response) throws Exception {
+        String username = userBo.getUsername();
+        String password = userBo.getPassword();
+
+        // 1. 判断用户名和密码不能为空
+        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+            return JSONResult.errorMsg("用户名或密码不能为空");
+        }
+        // 2. 实现登录
+        Users userResult = userService.queryUserForLogin(username, MD5Utils.getMD5Str(password));
+        // 3. 账号密码校验
+        if (userResult == null) {
+            return JSONResult.errorMsg("用户名或密码不正确");
+        }
+        userResult = setNullProperty(userResult);
+        CookieUtils.setCookie(request, response, "user", JsonUtils.objectToJson(userResult), true);
+        return JSONResult.ok();
+    }
+
+    /**
+     * 设置用户对象
+     *
+     * @param userResult
+     */
+    private Users setNullProperty(Users userResult) {
+        userResult.setPassword(null);
+        userResult.setMobile(null);
+        userResult.setEmail(null);
+        userResult.setCreatedTime(null);
+        userResult.setUpdatedTime(null);
+        userResult.setBirthday(null);
+        return userResult;
+    }
 
 }
