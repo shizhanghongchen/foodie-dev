@@ -122,6 +122,24 @@ public class PassportController {
     }
 
     /**
+     * 用户退出登录
+     *
+     * @param userId
+     * @param request
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "用户退出登录", notes = "用户退出登录", httpMethod = "POST")
+    @PostMapping("/logout")
+    public JSONResult logout(@RequestParam String userId, HttpServletRequest request, HttpServletResponse response) {
+        // 1. 清除用户相关信息的cookie
+        CookieUtils.deleteCookie(request,response,"user");
+        // todo : 用户退出登录需要清空购物车;
+        // todo : 分布式会话中需要清除用户数据;
+        return JSONResult.ok();
+    }
+
+    /**
      * 设置用户对象
      *
      * @param userResult
