@@ -17,14 +17,14 @@ public interface UserService {
      * @param username
      * @return
      */
-    boolean queryUsernameIsExist(String username);
+    public boolean queryUsernameIsExist(String username);
 
     /**
      * 用户注册
      *
      * @return
      */
-    Users createUser(UserBo userBo);
+    public Users createUser(UserBo userBo);
 
     /**
      * 检索用户名和密码是否匹配，用于登录
@@ -33,5 +33,5 @@ public interface UserService {
      * @param password
      * @return
      */
-    Users queryUserForLogin(String username, String password);
+    public Users queryUserForLogin(String username, String password);
 }

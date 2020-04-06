@@ -17,7 +17,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.Date;
 
 /**
- * @description: Test Demo
+ * @description: 用户模块实现类
  * @Author: my.yang
  * @Date: 2020/3/28 12:46 PM
  */
