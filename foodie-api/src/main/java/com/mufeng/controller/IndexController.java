@@ -7,6 +7,7 @@ import com.mufeng.service.CarouselService;
 import com.mufeng.service.CategoryService;
 import com.mufeng.utils.JSONResult;
 import com.mufeng.vo.CategoryVO;
+import com.mufeng.vo.NewItemsVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -76,5 +77,22 @@ public class IndexController {
         }
         List<CategoryVO> subCatList = categoryService.getSubCatList(rootCatId);
         return JSONResult.ok(subCatList);
+    }
+
+    /**
+     * 获取商品子分类
+     *
+     * @param rootCatId
+     * @return
+     */
+    @ApiOperation(value = "查询每个一级分类下的最新6条商品数据", notes = "查询每个一级分类下的最新6条商品数据", httpMethod = "GET")
+    @GetMapping("/sixNewItems/{rootCatId}")
+    public JSONResult sixNewItems(@ApiParam(name = "rootCatId", value = "一级分类id", required = true) @PathVariable Integer rootCatId) {
+        // 如果为空直接返回
+        if (rootCatId == null) {
+            return JSONResult.errorMsg("分类不存在");
+        }
+        List<NewItemsVO> sixNewItemsLazy = categoryService.getSixNewItemsLazy(rootCatId);
+        return JSONResult.ok(sixNewItemsLazy);
     }
 }
