@@ -3,7 +3,7 @@ package com.mufeng.service.impl;
 import com.mufeng.enums.Sex;
 import com.mufeng.mapper.UsersMapper;
 import com.mufeng.pojo.Users;
-import com.mufeng.pojo.bo.UserBo;
+import com.mufeng.bo.UserBo;
 import com.mufeng.service.UserService;
 import com.mufeng.utils.DateUtil;
 import com.mufeng.utils.MD5Utils;

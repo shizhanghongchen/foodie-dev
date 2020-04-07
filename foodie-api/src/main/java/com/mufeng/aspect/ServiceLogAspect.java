@@ -38,6 +38,7 @@ public class ServiceLogAspect {
      */
     @Around("execution(* com.mufeng.service.impl..*.*(..))")
     public Object recordTimeLog(ProceedingJoinPoint joinPoint) throws Throwable {
+        // ********************** Web Request Log Begin **********************
         log.info("====== 开始执行 {}.{} ======",
                 // 记录正在执行的Service
                 joinPoint.getTarget().getClass(),

@@ -2,7 +2,7 @@ package com.mufeng.service;
 
 
 import com.mufeng.pojo.Users;
-import com.mufeng.pojo.bo.UserBo;
+import com.mufeng.bo.UserBo;
 
 /**
  * @description: User接口

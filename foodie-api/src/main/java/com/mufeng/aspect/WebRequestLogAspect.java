@@ -100,19 +100,26 @@ public class WebRequestLogAspect {
      * @throws Exception
      */
     private String[] getFieldsName(String className, String methodName) throws Exception {
+        // 获取class
         Class<?> klass = Class.forName(className);
+        // 获取类池
         ClassPool pool = ClassPool.getDefault();
+        // 获取类路径
         ClassClassPath classPath = new ClassClassPath(klass);
+        // 初始化
         pool.insertClassPath(classPath);
-
+        // 获取类
         CtClass ctClass = pool.get(className);
+        // 获取方法
         CtMethod ctMethod = ctClass.getDeclaredMethod(methodName);
+        // 获取方法详情
         MethodInfo methodInfo = ctMethod.getMethodInfo();
         CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
         LocalVariableAttribute attr = (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
         if (attr == null) {
             return null;
         }
+        // 获取方法参数类型名称
         String[] paramsArgsName = new String[ctMethod.getParameterTypes().length];
         int pos = Modifier.isStatic(ctMethod.getModifiers()) ? 0 : 1;
         for (int i = 0; i < paramsArgsName.length; i++) {

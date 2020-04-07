@@ -1,4 +1,4 @@
-package com.mufeng.pojo.bo;
+package com.mufeng.bo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -40,5 +40,14 @@ public class UserBo {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    @Override
+    public String toString() {
+        return "UserBo{" +
+                "username='" + username + '\'' +
+                ", password='" + "passwordStr" + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                '}';
     }
 }

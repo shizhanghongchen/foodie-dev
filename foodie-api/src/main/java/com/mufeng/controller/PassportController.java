@@ -1,7 +1,7 @@
 package com.mufeng.controller;
 
 import com.mufeng.pojo.Users;
-import com.mufeng.pojo.bo.UserBo;
+import com.mufeng.bo.UserBo;
 import com.mufeng.service.UserService;
 import com.mufeng.utils.CookieUtils;
 import com.mufeng.utils.JSONResult;
