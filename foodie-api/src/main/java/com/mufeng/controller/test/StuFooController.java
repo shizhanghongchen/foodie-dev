@@ -1,4 +1,4 @@
-package com.mufeng.controller;
+package com.mufeng.controller.test;
 
 import com.mufeng.pojo.Stu;
 import com.mufeng.service.StuService;
