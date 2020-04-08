@@ -90,6 +90,8 @@ public class PassportController {
         Users userResult = userService.createUser(userBo);
         userResult = setNullProperty(userResult);
         CookieUtils.setCookie(request, response, "user", JsonUtils.objectToJson(userResult), true);
+        // todo : 生成用户token并存入redis会话
+        // todo : 同步购物车数据
         return JSONResult.ok();
     }
 
@@ -118,6 +120,8 @@ public class PassportController {
         }
         userResult = setNullProperty(userResult);
         CookieUtils.setCookie(request, response, "user", JsonUtils.objectToJson(userResult), true);
+        // todo : 生成用户token并存入redis会话
+        // todo : 同步购物车数据
         return JSONResult.ok();
     }
 
@@ -133,7 +137,7 @@ public class PassportController {
     @PostMapping("/logout")
     public JSONResult logout(@RequestParam String userId, HttpServletRequest request, HttpServletResponse response) {
         // 1. 清除用户相关信息的cookie
-        CookieUtils.deleteCookie(request,response,"user");
+        CookieUtils.deleteCookie(request, response, "user");
         // todo : 用户退出登录需要清空购物车;
         // todo : 分布式会话中需要清除用户数据;
         return JSONResult.ok();

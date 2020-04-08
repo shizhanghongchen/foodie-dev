@@ -16,6 +16,8 @@ import springfox.documentation.annotations.ApiIgnore;
 @ApiIgnore
 public class HelloController {
 
+    // shopcart
+
     private Logger logger = LoggerFactory.getLogger(HelloController.class);
 
     @GetMapping("/hello")
