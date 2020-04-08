@@ -11,9 +11,14 @@ import org.springframework.stereotype.Controller;
 public class BaseController {
 
     /**
-     * 分页数量
+     * 评论分页数量
      */
     public static final Integer COMMENT_PAGE_SIZE = 10;
+
+    /**
+     * 商品分页数量
+     */
+    public static final Integer ITEM_PAGE_SIZE = 20;
 
     /**
      * 分页页码

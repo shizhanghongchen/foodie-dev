@@ -19,6 +19,7 @@ import com.mufeng.utils.DesensitizationUtil;
 import com.mufeng.utils.PagedGridResult;
 import com.mufeng.vo.CommentLevelCountsVO;
 import com.mufeng.vo.ItemCommentVO;
+import com.mufeng.vo.SearchItemsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -155,6 +156,48 @@ public class ItemServiceImpl implements ItemService {
         /**
          * 返回分页数据
          */
+        return setterPagedGrid(page, resultList);
+    }
+
+    /**
+     * 搜索商品列表(分页)
+     *
+     * @param keywords
+     * @param sort
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public PagedGridResult searchItems(String keywords, String sort, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("keywords", keywords);
+        map.put("sort", sort);
+        // 开始分页
+        PageHelper.startPage(page, pageSize);
+        List<SearchItemsVO> resultList = itemsMapperCustom.searchItems(map);
+        return setterPagedGrid(page, resultList);
+    }
+
+    /**
+     * 根据分类id搜索商品列表(分页)
+     *
+     * @param catId
+     * @param sort
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public PagedGridResult searchItemsByThirdCat(Integer catId, String sort, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("catId", catId);
+        map.put("sort", sort);
+        // 开始分页
+        PageHelper.startPage(page, pageSize);
+        List<SearchItemsVO> resultList = itemsMapperCustom.searchItemsByThirdCat(map);
         return setterPagedGrid(page, resultList);
     }
 
