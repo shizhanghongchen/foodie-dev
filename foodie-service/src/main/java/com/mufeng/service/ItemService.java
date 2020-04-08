@@ -4,6 +4,9 @@ import com.mufeng.pojo.Items;
 import com.mufeng.pojo.ItemsImg;
 import com.mufeng.pojo.ItemsParam;
 import com.mufeng.pojo.ItemsSpec;
+import com.mufeng.utils.PagedGridResult;
+import com.mufeng.vo.CommentLevelCountsVO;
+import com.mufeng.vo.ItemCommentVO;
 
 import java.util.List;
 
@@ -45,4 +48,23 @@ public interface ItemService {
      * @return
      */
     public ItemsParam queryItemParam(String itemId);
+
+    /**
+     * 根据商品id查询商品的评价等级数量
+     *
+     * @param itemId
+     * @return
+     */
+    public CommentLevelCountsVO queryCommentCounts(String itemId);
+
+    /**
+     * 根据商品id查询商品评价(分页)
+     *
+     * @param itemId
+     * @param level
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    public PagedGridResult queryPagedComments(String itemId, Integer level, Integer page, Integer pageSize);
 }
