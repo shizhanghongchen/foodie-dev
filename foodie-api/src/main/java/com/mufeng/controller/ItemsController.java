@@ -9,6 +9,7 @@ import com.mufeng.utils.JSONResult;
 import com.mufeng.utils.PagedGridResult;
 import com.mufeng.vo.CommentLevelCountsVO;
 import com.mufeng.vo.ItemInfoVO;
+import com.mufeng.vo.ShopcartVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -166,6 +167,24 @@ public class ItemsController extends BaseController {
         }
         // 可重载
         PagedGridResult result = itemService.searchItemsByThirdCat(catId, sort, page, pageSize);
+        return JSONResult.ok(result);
+    }
+
+    /**
+     * 用于用户长时间未登录网站,刷新购物车中的数据(商品价格),类似于京东/淘宝
+     *
+     * @param itemSpecIds
+     * @return
+     */
+    @ApiOperation(value = "根据商品规格ids查找最新的商品数据", notes = "根据商品规格ids查找最新的商品数据", httpMethod = "GET")
+    @GetMapping("/refresh")
+    public JSONResult refresh(@ApiParam(name = "itemSpecIds", value = "拼接的规格ids", required = true, example = "1001,1003,1005")
+                              @RequestParam String itemSpecIds) {
+        // 如果为空直接返回
+        if (StringUtils.isBlank(itemSpecIds)) {
+            return JSONResult.ok();
+        }
+        List<ShopcartVO> result = itemService.queryItemsBySpecIds(itemSpecIds);
         return JSONResult.ok(result);
     }
 }

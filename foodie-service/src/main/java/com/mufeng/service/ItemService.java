@@ -6,6 +6,7 @@ import com.mufeng.pojo.ItemsParam;
 import com.mufeng.pojo.ItemsSpec;
 import com.mufeng.utils.PagedGridResult;
 import com.mufeng.vo.CommentLevelCountsVO;
+import com.mufeng.vo.ShopcartVO;
 
 import java.util.List;
 
@@ -88,4 +89,12 @@ public interface ItemService {
      * @return
      */
     public PagedGridResult searchItemsByThirdCat(Integer catId, String sort, Integer page, Integer pageSize);
+
+    /**
+     * 根据规格ids查询最新的购物车中商品数据(用于刷新渲染购物车中的商品数据)
+     *
+     * @param specIds
+     * @return
+     */
+    public List<ShopcartVO> queryItemsBySpecIds(String specIds);
 }

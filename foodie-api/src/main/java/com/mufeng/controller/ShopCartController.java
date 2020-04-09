@@ -5,8 +5,6 @@ import com.mufeng.utils.JSONResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("shopcart")
 @RestController
 public class ShopCartController {
-
-    private Logger log = LoggerFactory.getLogger(ShopCartController.class);
     // shopcart
 
     /**
@@ -46,6 +42,26 @@ public class ShopCartController {
             return JSONResult.errorMsg("");
         }
         // todo : 前端用户在登录的情况下添加商品到购物车会同时在后端同步购物车到Redis缓存
+        return JSONResult.ok();
+    }
+
+    /**
+     * 从购物车中删除商品
+     *
+     * @param userId
+     * @param itemSpecId
+     * @param request
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "从购物车中删除商品", notes = "从购物车中删除商品", httpMethod = "POST")
+    @PostMapping("/del")
+    public JSONResult del(@RequestParam String userId, @RequestParam String itemSpecId, HttpServletRequest request,
+                          HttpServletResponse response) {
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(itemSpecId)) {
+            return JSONResult.errorMsg("参数不能为空");
+        }
+        // todo : 用户在页面删除购物车中的商品数据,如果此时用户已经登录,则需要同步删除后端购物车中的商品;
         return JSONResult.ok();
     }
 }

@@ -20,12 +20,15 @@ import com.mufeng.utils.PagedGridResult;
 import com.mufeng.vo.CommentLevelCountsVO;
 import com.mufeng.vo.ItemCommentVO;
 import com.mufeng.vo.SearchItemsVO;
+import com.mufeng.vo.ShopcartVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -199,6 +202,21 @@ public class ItemServiceImpl implements ItemService {
         PageHelper.startPage(page, pageSize);
         List<SearchItemsVO> resultList = itemsMapperCustom.searchItemsByThirdCat(map);
         return setterPagedGrid(page, resultList);
+    }
+
+    /**
+     * 根据规格ids查询最新的购物车中商品数据(用于刷新渲染购物车中的商品数据)
+     *
+     * @param specIds
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public List<ShopcartVO> queryItemsBySpecIds(String specIds) {
+        String[] ids = specIds.split(",");
+        List<String> specList = new ArrayList<>();
+        Collections.addAll(specList, ids);
+        return itemsMapperCustom.queryItemsBySpecIds(specList);
     }
 
     /**
