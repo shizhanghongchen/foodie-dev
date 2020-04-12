@@ -24,4 +24,9 @@ public class BaseController {
      * 分页页码
      */
     public static final Integer COMMENT_PAGE = 1;
+
+    /**
+     * 购物车标识
+     */
+    public static final String FOODIE_SHOPCART = "shopcart";
 }

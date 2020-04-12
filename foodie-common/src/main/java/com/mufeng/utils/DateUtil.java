@@ -389,7 +389,7 @@ public class DateUtil {
     /**
      *  
      * @param date
-     * @param days
+     * @param mnt
      * @return java.util.Date
      */
     public static Date dateIncreaseByMonth(Date date, int mnt) {

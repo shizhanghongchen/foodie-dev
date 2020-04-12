@@ -113,7 +113,7 @@
                 </otherwise>
             </choose>
     </select>
-    
+
     <select id="queryItemsBySpecIds" parameterType="List" resultType="com.mufeng.vo.ShopcartVO">
         SELECT
             t_items.id as itemId,
@@ -141,4 +141,14 @@
                 #{specId}
             </foreach>
     </select>
+    <update id="decreaseItemSpecStock">
+        UPDATE
+          items_spec
+        SET
+          stock = stock - #{pendingCounts}
+        WHERE
+          id = #{specId}
+        AND
+          stock >= #{pendingCounts}
+    </update>
 </mapper>

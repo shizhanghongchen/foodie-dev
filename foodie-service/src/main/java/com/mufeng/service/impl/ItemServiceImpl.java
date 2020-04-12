@@ -3,6 +3,7 @@ package com.mufeng.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mufeng.enums.CommentLevel;
+import com.mufeng.enums.YesOrNo;
 import com.mufeng.mapper.ItemsCommentsMapper;
 import com.mufeng.mapper.ItemsImgMapper;
 import com.mufeng.mapper.ItemsMapper;
@@ -218,6 +219,59 @@ public class ItemServiceImpl implements ItemService {
         Collections.addAll(specList, ids);
         return itemsMapperCustom.queryItemsBySpecIds(specList);
     }
+
+    /**
+     * 根据商品规格id获取规格对象的具体信息
+     *
+     * @param specId
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public ItemsSpec queryItemSpecById(String specId) {
+        return itemsSpecMapper.selectByPrimaryKey(specId);
+    }
+
+    /**
+     * 根据商品id获得商品图片主图url
+     *
+     * @param itemId
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public String queryItemMainImgById(String itemId) {
+        ItemsImg itemsImg = new ItemsImg();
+        itemsImg.setItemId(itemId);
+        itemsImg.setIsMain(YesOrNo.YES.type);
+        ItemsImg result = itemsImgMapper.selectOne(itemsImg);
+        return result != null ? result.getUrl() : "";
+    }
+
+    /**
+     * 减少库存
+     * 并发情况下会出现超卖的情况
+     * synchronized : 集群情况下会失效,性能低(不推荐使用);
+     * 锁数据库 : 不推荐,会导致数据库性能低下;
+     * 分布式锁 : zookeeper redis
+     * LockUtil.getLock(); ----> 加锁
+     * LockUtil.unLock(); ----> 解锁
+     * 单体应用 : 使用乐观锁
+     *
+     * @param specId
+     * @param buyCounts
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void decreaseItemSpecStock(String specId, int buyCounts) {
+        // 1. 查询库存
+        // 2. 判断库存,是否能够减少到0以下;
+        int result = itemsMapperCustom.decreaseItemSpecStock(specId, buyCounts);
+        if (result != 1) {
+            throw new RuntimeException("订单创建失败,原因 : 库存不足!");
+        }
+    }
+
 
     /**
      * 评论等级通用查询

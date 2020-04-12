@@ -161,7 +161,6 @@ public class AddressController {
                 StringUtils.isBlank(detail)) {
             return JSONResult.errorMsg("收货地址信息不能为空");
         }
-
         return JSONResult.ok();
     }
 }
